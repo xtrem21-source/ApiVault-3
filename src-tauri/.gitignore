@@ -1,0 +1,3 @@
+# Fichiers generes par cargo
+/target/
+/gen/schemas

@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ApiVault-3</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- ===================================================================== -->
+<!-- Ecran de bienvenue (premier lancement uniquement)                     -->
+<!-- ===================================================================== -->
+<section id="ecran-bienvenue" class="ecran">
+  <div class="bloc-centre">
+    <h1 class="titre-app">Api<span>Vault</span>-3</h1>
+    <p class="soustitre" data-i18n="bienvenue.soustitre"></p>
+
+    <div class="carte">
+      <p>
+        <span data-i18n="bienvenue.presentation_1"></span>
+        <code>vault.json</code>
+        <span data-i18n="bienvenue.presentation_2"></span>
+      </p>
+      <ul class="liste-avantages">
+        <li>
+          <span data-i18n="bienvenue.av1a"></span>
+          <strong data-i18n="bienvenue.av1b"></strong>
+          <span data-i18n="bienvenue.av1c"></span>
+        </li>
+        <li>
+          <span data-i18n="bienvenue.av2a"></span>
+          <strong data-i18n="bienvenue.av2b"></strong>
+          <span data-i18n="bienvenue.av2c"></span>
+        </li>
+        <li>
+          <strong data-i18n="bienvenue.av3b"></strong>
+          <span data-i18n="bienvenue.av3c"></span>
+        </li>
+        <li data-i18n="bienvenue.av4"></li>
+      </ul>
+    </div>
+
+    <div class="carte">
+      <h2 data-i18n="bienvenue.premier_lancement"></h2>
+      <p data-i18n="bienvenue.aucun_vault"></p>
+      <div class="barre-boutons">
+        <button id="btn-nouveau-vault" class="btn principal" data-i18n="bienvenue.nouveau"></button>
+        <button id="btn-importer-vault" class="btn secondaire" data-i18n="bienvenue.importer"></button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================================== -->
+<!-- Creation du mot de passe maitre                                       -->
+<!-- ===================================================================== -->
+<section id="ecran-creation-mdp" class="ecran">
+  <div class="bloc-centre">
+    <h1 data-i18n="creation.titre"></h1>
+    <p class="soustitre" data-i18n="creation.sous_titre"></p>
+
+    <div class="carte">
+      <p>
+        <span data-i18n="creation.intro_1"></span>
+        <strong data-i18n="creation.intro_2"></strong>
+        <span data-i18n="creation.intro_3"></span>
+      </p>
+      <label class="champ">
+        <span data-i18n="champ.mot_de_passe"></span>
+        <input type="password" id="nouveau-mdp" autocomplete="new-password"
+               data-i18n-placeholder="creation.placeholder_mdp" />
+      </label>
+      <label class="champ">
+        <span data-i18n="champ.confirmation_mdp"></span>
+        <input type="password" id="nouveau-mdp2" autocomplete="new-password" />
+      </label>
+      <div id="force-mdp" class="jauge-force"></div>
+      <p id="erreur-creation" class="erreur cache"></p>
+      <div class="barre-boutons">
+        <button id="btn-creer-vault" class="btn principal" data-i18n="creation.bouton"></button>
+        <button id="btn-retour-creation" class="btn secondaire" data-i18n="commun.retour"></button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================================== -->
+<!-- Phrase de recuperation                                                -->
+<!-- ===================================================================== -->
+<section id="ecran-phrase" class="ecran">
+  <div class="bloc-centre large">
+    <h1 data-i18n="phrase.titre"></h1>
+    <p class="soustitre" id="soustitre-phrase" data-i18n="phrase.sous_titre"></p>
+
+    <div class="carte avertissement-fort">
+      <p><strong data-i18n="phrase.avertissement"></strong></p>
+      <p>
+        <span id="phrase-corps-1" data-i18n="phrase.corps_1"></span>
+        <code>vault.json</code>
+        <span id="phrase-corps-2" data-i18n="phrase.corps_2"></span>
+      </p>
+    </div>
+
+    <div class="carte">
+      <ol id="liste-phrase" class="grille-phrase"></ol>
+    </div>
+
+    <div class="carte">
+      <label class="case">
+        <input type="checkbox" id="case-phrase-notee" />
+        <span data-i18n="phrase.case"></span>
+      </label>
+      <p class="aide" data-i18n="phrase.notifications"></p>
+      <div class="barre-boutons">
+        <button id="btn-phrase-continuer" class="btn principal" disabled data-i18n="commun.continuer"></button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================================== -->
+<!-- Import au premier lancement                                           -->
+<!-- ===================================================================== -->
+<section id="ecran-import-bienvenue" class="ecran">
+  <div class="bloc-centre large">
+    <h1 data-i18n="import.titre"></h1>
+    <p class="soustitre">
+      <span data-i18n="import.sous_titre_1"></span>
+      <code>exports/</code>
+      <span data-i18n="import.sous_titre_2"></span>
+    </p>
+
+    <div class="carte">
+      <h2><span data-i18n="import.fichiers_titre"></span> <code>exports/</code></h2>
+      <div id="liste-fichiers-bienvenue" class="liste-fichiers"></div>
+      <button id="btn-rafraichir-bienvenue" class="btn secondaire petit" data-i18n="commun.rafraichir"></button>
+    </div>
+
+    <div class="carte">
+      <h2 data-i18n="import.collage_titre"></h2>
+      <label class="champ">
+        <textarea id="collage-bienvenue" rows="5" data-i18n-placeholder="import.placeholder_collage"></textarea>
+      </label>
+      <div class="barre-boutons">
+        <button id="btn-importer-collage" class="btn principal" data-i18n="import.bouton_collage"></button>
+        <button id="btn-retour-bienvenue" class="btn secondaire" data-i18n="commun.retour"></button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================================== -->
+<!-- Connexion : mot de passe maitre ou phrase de recuperation             -->
+<!-- ===================================================================== -->
+<section id="ecran-connexion" class="ecran">
+  <div class="bloc-centre">
+    <h1 class="titre-app">Api<span>Vault</span>-3</h1>
+    <p class="soustitre" id="texte-mode-connexion"></p>
+
+    <div class="onglets">
+      <button id="onglet-mdp" class="onglet actif" data-i18n="connexion.onglet_mdp"></button>
+      <button id="onglet-phrase" class="onglet" data-i18n="connexion.onglet_phrase"></button>
+    </div>
+
+    <div id="panneau-mdp" class="carte">
+      <label class="champ">
+        <span data-i18n="champ.mot_de_passe"></span>
+        <input type="password" id="mdp-connexion" autocomplete="current-password" />
+      </label>
+      <p id="erreur-connexion" class="erreur cache"></p>
+      <div class="barre-boutons">
+        <button id="btn-ouvrir-vault" class="btn principal" data-i18n="connexion.bouton"></button>
+      </div>
+      <p class="aide">
+        <span data-i18n="connexion.aide_vault"></span>
+        <code id="chemin-vault-connexion"></code>
+      </p>
+    </div>
+
+    <div id="panneau-phrase" class="carte cache">
+      <p class="aide" data-i18n="connexion.phrase_aide"></p>
+      <label class="champ">
+        <span data-i18n="connexion.phrase_champ"></span>
+        <textarea id="phrase-connexion" rows="4" spellcheck="false"
+                  data-i18n-placeholder="connexion.phrase_placeholder"></textarea>
+      </label>
+      <p id="erreur-phrase" class="erreur cache"></p>
+      <div class="barre-boutons">
+        <button id="btn-ouvrir-phrase" class="btn principal" data-i18n="connexion.phrase_bouton"></button>
+      </div>
+      <p id="phrase-absente" class="avertissement cache" data-i18n="connexion.phrase_absente"></p>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================================== -->
+<!-- Ecran principal                                                       -->
+<!-- ===================================================================== -->
+<section id="ecran-principal" class="ecran">
+  <header class="entete">
+    <div class="entete-titre">
+      <h1 class="titre-app petit">Api<span>Vault</span>-3</h1>
+      <span id="etiquette-mode" class="etiquette"></span>
+    </div>
+    <div class="entete-actions">
+      <button id="btn-verrouiller" class="btn secondaire petit" data-i18n="principal.verrouiller"></button>
+      <button id="btn-parametres" class="btn secondaire petit" data-i18n="principal.parametres"></button>
+    </div>
+  </header>
+
+  <div class="barre-outils">
+    <input type="search" id="recherche" data-i18n-placeholder="principal.recherche" />
+    <button id="btn-ajouter-fournisseur" class="btn principal" data-i18n="principal.ajouter"></button>
+  </div>
+
+  <div id="liste-fournisseurs" class="liste-fournisseurs"></div>
+  <p id="aucun-fournisseur" class="vide cache"></p>
+
+  <footer class="pied">
+    <span id="compteur-global"></span>
+    <span class="chemin"><span data-i18n="principal.fichier"></span> <code id="chemin-vault-pied"></code></span>
+  </footer>
+</section>
+
+<!-- ===================================================================== -->
+<!-- Parametres                                                            -->
+<!-- ===================================================================== -->
+<section id="ecran-parametres" class="ecran">
+  <header class="entete">
+    <h1 data-i18n="parametres.titre"></h1>
+    <button id="btn-retour-parametres" class="btn secondaire petit" data-i18n="commun.retour"></button>
+  </header>
+
+  <div class="carte">
+    <h2 data-i18n="parametres.mode_titre"></h2>
+    <label class="option-mode">
+      <input type="radio" name="mode-vault" value="strict" id="mode-strict" />
+      <span>
+        <strong data-i18n="parametres.mode_strict_titre"></strong><br />
+        <span data-i18n="parametres.mode_strict_1"></span>
+        <code>vault.json</code>
+        <span data-i18n="parametres.mode_strict_2"></span>
+      </span>
+    </label>
+    <label class="option-mode">
+      <input type="radio" name="mode-vault" value="confort" id="mode-confort" />
+      <span>
+        <strong data-i18n="parametres.mode_confort_titre"></strong><br />
+        <span data-i18n="parametres.mode_confort_1"></span>
+        <code>vault.json</code>
+        <span data-i18n="parametres.mode_confort_2"></span>
+      </span>
+    </label>
+    <p class="avertissement" data-i18n="parametres.mode_avertissement"></p>
+  </div>
+
+  <div class="carte">
+    <h2 data-i18n="parametres.langue_titre"></h2>
+    <p class="aide" data-i18n="parametres.langue_aide"></p>
+    <div class="ligne-langue">
+      <select id="selecteur-langue" class="langue">
+        <option value="fr" data-i18n="parametres.langue_fr"></option>
+        <option value="en" data-i18n="parametres.langue_en"></option>
+      </select>
+    </div>
+  </div>
+
+  <div class="carte">
+    <h2 data-i18n="parametres.mdp_titre"></h2>
+    <p class="aide" data-i18n="parametres.mdp_aide"></p>
+    <label class="champ">
+      <span data-i18n="parametres.mdp_actuel"></span>
+      <input type="password" id="mdp-actuel" autocomplete="current-password" />
+    </label>
+    <label class="champ">
+      <span data-i18n="parametres.mdp_nouveau"></span>
+      <input type="password" id="mdp-nouveau" autocomplete="new-password" />
+    </label>
+    <label class="champ">
+      <span data-i18n="parametres.mdp_confirmation"></span>
+      <input type="password" id="mdp-nouveau2" autocomplete="new-password" />
+    </label>
+    <p id="erreur-mdp" class="erreur cache"></p>
+    <button id="btn-changer-mdp" class="btn principal" data-i18n="parametres.mdp_bouton"></button>
+  </div>
+
+  <div class="carte">
+    <h2 data-i18n="parametres.recuperation_titre"></h2>
+    <p id="etat-recuperation" class="aide"></p>
+    <p class="aide" data-i18n="parametres.recuperation_aide"></p>
+    <button id="btn-recuperation" class="btn principal" data-i18n="parametres.recuperation_activer"></button>
+  </div>
+
+  <div class="carte">
+    <h2 data-i18n="parametres.presse_titre"></h2>
+    <label class="case">
+      <input type="checkbox" id="case-presse-papiers" />
+      <span data-i18n="parametres.presse_case"></span>
+    </label>
+    <p class="aide" data-i18n="parametres.presse_aide"></p>
+  </div>
+
+  <div class="carte">
+    <h2 data-i18n="parametres.export_titre"></h2>
+    <p class="aide">
+      <span data-i18n="parametres.export_aide_1"></span>
+      <code>exports/</code>
+      <span data-i18n="parametres.export_aide_2"></span>
+    </p>
+    <div class="barre-boutons">
+      <button id="btn-export-chiffre" class="btn principal" data-i18n="parametres.export_chiffre"></button>
+      <button id="btn-export-html" class="btn secondaire" data-i18n="parametres.export_html"></button>
+      <button id="btn-export-json" class="btn secondaire" data-i18n="parametres.export_json"></button>
+    </div>
+    <p class="avertissement" data-i18n="parametres.export_avertissement"></p>
+  </div>
+
+  <div class="carte">
+    <h2 data-i18n="parametres.import_titre"></h2>
+    <p class="aide">
+      <span data-i18n="parametres.import_aide_1"></span>
+      <code>.vaultbackup</code>
+      <span data-i18n="parametres.import_aide_2"></span>
+    </p>
+    <div id="liste-fichiers-parametres" class="liste-fichiers"></div>
+    <button id="btn-rafraichir-parametres" class="btn secondaire petit" data-i18n="commun.rafraichir"></button>
+    <label class="champ">
+      <span data-i18n="parametres.import_collage"></span>
+      <textarea id="collage-parametres" rows="5" data-i18n-placeholder="import.placeholder_collage"></textarea>
+    </label>
+    <button id="btn-importer-collage-parametres" class="btn principal" data-i18n="parametres.import_bouton"></button>
+  </div>
+
+  <div class="carte">
+    <h2 data-i18n="parametres.emplacements_titre"></h2>
+    <p class="aide" data-i18n="parametres.emplacements_aide"></p>
+    <p class="chemin"><span data-i18n="commun.dossier_app"></span> : <code id="info-dossier"></code></p>
+    <p class="chemin"><span data-i18n="commun.fichier_vault"></span> : <code id="info-vault"></code></p>
+  </div>
+</section>
+
+<!-- ===================================================================== -->
+<!-- Modale generique et notifications                                     -->
+<!-- ===================================================================== -->
+<div id="fond-modale" class="fond-modale cache">
+  <div class="modale" role="dialog" aria-modal="true">
+    <h2 id="modale-titre"></h2>
+    <div id="modale-corps"></div>
+    <div id="modale-actions" class="barre-boutons"></div>
+  </div>
+</div>
+
+<div id="notifications" class="notifications"></div>
+
+<script src="bip39.js"></script>
+<script src="crypto.js"></script>
+<script src="i18n.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

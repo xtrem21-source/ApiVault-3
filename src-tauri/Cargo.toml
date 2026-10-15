@@ -1,0 +1,31 @@
+[package]
+name = "apivault-3"
+version = "1.0.0"
+description = "ApiVault-3 - gestionnaire de cles API personnel et portable"
+authors = ["ApiVault-3"]
+edition = "2021"
+rust-version = "1.77"
+
+# Application de bureau uniquement : pas de cible lib/mobile.
+[[bin]]
+name = "apivault-3"
+path = "src/main.rs"
+
+[build-dependencies]
+# Genere le contexte Tauri (assets, icone, schema) au moment de la compilation.
+tauri-build = { version = "=2.7.3", features = [] }
+
+[dependencies]
+# Seule dependance necessaire : Tauri lui-meme.
+# Aucune dependance reseau, aucun plugin supplementaire.
+tauri = { version = "=2.12.4", features = [] }
+
+# Pas de dependance "reseau" active.
+[profile.release]
+# Optimisations pour reduire la taille du binaire final (< 10 Mo).
+opt-level = "z"
+lto = true
+codegen-units = 1
+panic = "abort"
+strip = true
+incremental = false

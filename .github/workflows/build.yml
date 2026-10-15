@@ -1,0 +1,72 @@
+# Build ApiVault for Windows.
+#
+# Triggered:
+#   - on a tag push matching v* (for example v1.0.0), which also creates a
+#     GitHub release with the executable attached;
+#   - manually, from the "Actions" tab (workflow_dispatch), which only uploads
+#     the executable as a build artifact.
+#
+# The frontend is static (no npm, no bundler), so no Node build step is needed:
+# Node.js is only installed for the Tauri CLI, which expects it to be present.
+
+name: Build ApiVault
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+# Required so the release step can create a release and attach the executable.
+permissions:
+  contents: write
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      # Cache downloaded crates and compiled dependencies between runs.
+      - name: Cache Cargo
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo
+            src-tauri/target
+          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-cargo-
+
+      - name: Install Tauri CLI
+        run: cargo install tauri-cli --version "^2"
+
+      # bundle.active is false in tauri.conf.json, so this produces a plain
+      # executable (src-tauri/target/release/apivault-3.exe) and no installer.
+      - name: Build
+        run: cargo tauri build
+        working-directory: src-tauri
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ApiVault-windows
+          path: src-tauri/target/release/*.exe
+
+      # Only on a v* tag: publish a release and attach the executable.
+      - name: Create Release
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: src-tauri/target/release/*.exe
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

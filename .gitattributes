@@ -1,0 +1,26 @@
+# Normalise line endings: LF in the repository for everything...
+* text=auto eol=lf
+
+# ...except Windows scripts, which must keep CRLF.
+*.bat text eol=crlf
+*.cmd text eol=crlf
+*.ps1 text eol=crlf
+
+# Source files (explicit, so GitHub and editors behave)
+*.rs text eol=lf
+*.js text eol=lf
+*.html text eol=lf
+*.css text eol=lf
+*.json text eol=lf
+*.md text eol=lf
+*.toml text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+
+# Lock file: keep as generated
+Cargo.lock text eol=lf
+
+# Binary files: never touch
+*.png binary
+*.ico binary
+*.exe binary
